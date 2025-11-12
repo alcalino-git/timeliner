@@ -7,7 +7,8 @@ import 'package:timeliner_flitter/widgets/entry.dart';
 
 class TimelineWidget extends StatelessWidget {
 	final AppState state;
-	const TimelineWidget({super.key, required this.state});
+  final double widgetAspectRatio;
+	const TimelineWidget({super.key, required this.state, this.widgetAspectRatio = 1/1});
 	
 
 
@@ -23,8 +24,10 @@ class TimelineWidget extends StatelessWidget {
 
 					return  GridView.count(
 						crossAxisCount: (w / itemW).toInt(),
-						childAspectRatio: itemW / itemH,
-						children: state.entries.map((e) => EntryWidget(entry: e)).toList(),
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: widgetAspectRatio,
+						children: state.entries.map((e) => EntryWidget(entry: e, imageAspectRatio: widgetAspectRatio,)).toList(),
 					);
 				},
 			)

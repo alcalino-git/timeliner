@@ -37,7 +37,7 @@ class AppStateWidget extends State<MainApp> {
 					child: Column(
 						mainAxisAlignment: MainAxisAlignment.center,
 						children: [
-							TimelineWidget(state: state)
+							TimelineWidget(state: state, widgetAspectRatio: 1/1,)
 						]
 					),
 				),

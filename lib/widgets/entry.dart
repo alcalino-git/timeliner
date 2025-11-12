@@ -14,6 +14,8 @@ class EntryWidget extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+    var date_start_text = "${entry.start?.year}/${entry.start?.month}/${entry.start?.day}";
+    var date_end_text = entry.end != null ? "${entry.end?.year}/${entry.end?.month}/${entry.end?.day}" : "Today";
 
 		return 
 				AspectRatio(
@@ -29,6 +31,8 @@ class EntryWidget extends StatelessWidget {
                     child: Image.network(entry.image, fit: BoxFit.cover),
                   );
                 }),
+                Title(color: Colors.black, child: Text(entry.name, textScaler: TextScaler.linear(1.5),)),
+                Text("${date_start_text} ➡️ ${date_end_text}"),
                 Text(entry.description)
               ])
             )

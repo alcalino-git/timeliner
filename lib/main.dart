@@ -9,9 +9,7 @@ import 'package:timeliner_flitter/widgets/entry.dart';
 import 'package:timeliner_flitter/widgets/timeline.dart';
 
 void main() {
-  runApp(const MaterialApp(
-		home: MainApp(),
-	));
+  runApp(const MaterialApp(home: MainApp()));
 }
 
 class AppStateWidget extends State<MainApp> {
@@ -22,55 +20,64 @@ class AppStateWidget extends State<MainApp> {
   final XTypeGroup typeGroup = XTypeGroup(label: "csv", extensions: [".csv"]);
 
   AlertDialog dialog = AlertDialog(
-		title: Text("Warning"),
-		content: Text("""
+    title: Text("Warning"),
+    content: Text("""
 				No data could be extracted from the selected file.
 				Please make sure it is in the correct format.
 				The expected headers are: [name, start, end, description, image]
 				"""),
-	);
+  );
 
   Future<void> handleSelectFile(BuildContext context) async {
-	final XFile? file = await openFile(acceptedTypeGroups: [typeGroup]);
+    final XFile? file = await openFile(acceptedTypeGroups: [typeGroup]);
+    if (file == null) {
+      return;
+    }
+    state = await state.loadFromCSV(file.path);
+    setState(() {
+      state = state;
+    });
+    if (state.entries.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        },
+      );
+    }
+  }
+
+  Future<void> handleSaveFile(BuildContext context) async {
+	var file = await getSaveLocation(acceptedTypeGroups: [XTypeGroup(mimeTypes: ["image"])]);
 	if (file == null) {
 	  return;
 	}
-	state = await state.loadFromCSV(file.path);
-	setState(() {
-	  state = state;
-	});
-	if (state.entries.isEmpty) {
-	  showDialog(
-		context: context,
-		builder: (BuildContext context) {
-		  return dialog;
-		},
-	  );
-	}
+	state.screenshotPath.set(file.path);
   }
 
   @override
   Widget build(BuildContext context) {
-	return MaterialApp(
-	  home: Scaffold(
-		appBar: AppBar(
-		  title: Text("Timeliner"),
-		  shadowColor: Theme.of(context).colorScheme.shadow,
-		  actions: [
-			TextButton(
-			  onPressed: () => handleSelectFile(context),
-			  child: Text("Open"),
-			),
-		  ],
-		),
-		body: Center(
-		  child: Column(
-			mainAxisAlignment: MainAxisAlignment.center,
-			children: [TimelineWidget(state: state, widgetAspectRatio: 1 / 1)],
-		  ),
-		),
-	  ),
-	);
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Timeliner"),
+          shadowColor: Theme.of(context).colorScheme.shadow,
+          actions: [
+            TextButton(
+              onPressed: () => handleSelectFile(context),
+              child: Text("Open"),
+            ),
+            TextButton(onPressed: () => handleSaveFile(context), child: Text("Save")),
+          ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [TimelineWidget( widgetAspectRatio: 1 / 1)],
+          ),
+        ),
+      ),
+    );
   }
 }
 

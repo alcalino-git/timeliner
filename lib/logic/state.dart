@@ -3,6 +3,7 @@ import "dart:io";
 
 import "package:csv/csv.dart";
 import 'package:json_annotation/json_annotation.dart';
+import "package:signals/signals.dart";
 import 'package:timeliner_flitter/main.dart';
 
 @JsonSerializable()
@@ -32,6 +33,14 @@ class Entry {
 
 class AppState  {
 		List<Entry> entries = [];
+    final Signal<String?> screenshotPath = signal(null);
+    static final AppState _singleton = AppState._internal();
+
+    factory AppState() {
+      return _singleton;
+    }
+
+    AppState._internal();
 
 
 		Future<AppState> loadFromCSV(String filename) async {

@@ -31,10 +31,23 @@ class Entry {
 
 }
 
+enum Directions {
+  row,
+  column
+}
+
+class Config {
+  Directions exportDirection = Directions.row;
+  double gap = 6.0;
+  double aspectRatio = 1/1;
+  double size = 500;
+}
+
 class AppState  {
 		List<Entry> entries = [];
     final Signal<String?> screenshotPath = signal(null);
     static final AppState _singleton = AppState._internal();
+    Config config = Config();
 
     factory AppState() {
       return _singleton;

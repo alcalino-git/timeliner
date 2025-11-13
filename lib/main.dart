@@ -6,7 +6,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:timeliner_flitter/logic/state.dart';
 import 'package:timeliner_flitter/widgets/entry.dart';
-import 'package:timeliner_flitter/widgets/timeline.dart';
+import 'package:timeliner_flitter/widgets/timeline_preview.dart';
 
 void main() {
   runApp(const MaterialApp(home: MainApp()));
@@ -73,7 +73,7 @@ class AppStateWidget extends State<MainApp> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [TimelineWidget( widgetAspectRatio: 1 / 1)],
+            children: [TimelinePreviewState()],
           ),
         ),
       ),
@@ -82,7 +82,6 @@ class AppStateWidget extends State<MainApp> {
 }
 
 class MainApp extends StatefulWidget {
-  final String name = "idk";
 
   const MainApp({super.key});
 

@@ -3,15 +3,15 @@ import 'package:screenshot/screenshot.dart';
 import 'package:timeliner_flitter/logic/state.dart';
 import 'package:timeliner_flitter/widgets/entry.dart';
 
-class TimelineRenderWidget extends StatelessWidget {
+
+class TimelineRenderState extends State<TimelineRenderWidget> {
   final AppState state = AppState();
+  final ScreenshotController screenshotController = ScreenshotController();
 
-  TimelineRenderWidget({super.key});
-  ScreenshotController screenshotController = ScreenshotController();
-
-  Future<void> saveAsImage(String path) async {
-    screenshotController.captureAndSave(path);
-  }
+  // Future<void> saveAsImage(String path) async {
+  //   await WidgetsBinding.instance.endOfFrame;
+  //   await screenshotController.captureAndSave(path);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -44,4 +44,12 @@ class TimelineRenderWidget extends StatelessWidget {
     return Screenshot(controller: screenshotController, child: view);
 
   }
+  
+}
+
+class TimelineRenderWidget extends StatefulWidget {
+  const TimelineRenderWidget({super.key});
+  
+  @override
+  State<StatefulWidget> createState() => TimelineRenderState();
 }

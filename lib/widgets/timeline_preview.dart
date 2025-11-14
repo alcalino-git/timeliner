@@ -12,14 +12,15 @@ import 'package:timeliner_flitter/widgets/timeline_render.dart';
 
 class TimelinePreviewWidget extends State<TimelinePreviewState> {
   AppState state = AppState();
+  final timelineKey = GlobalKey<TimelineRenderState>();
+  final controller = ScreenshotController();
 
-  final screenshotListener = AppState().screenshotPath.subscribe((p) async {
-    if (p == null) {
-      return;
-    }
-    TimelineRenderWidget().saveAsImage(p);
-  });
-
+  TimelinePreviewWidget() {
+    state.screenshotPath.subscribe((p) async {
+      if (p == null) return;
+      controller.captureAndSave(p);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +56,31 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
               ),
               RadioGroup<Directions>(
                 groupValue: state.config.exportDirection,
-                onChanged: (v) => {setState(() {
-                  if (v == null) {return;}
-                  state.config.exportDirection = v;
-                })}, 
+                onChanged: (v) => {
+                  setState(() {
+                    if (v == null) {
+                      return;
+                    }
+                    state.config.exportDirection = v;
+                  }),
+                },
                 child: Column(
                   children: [
-                    Row(children: [Radio(value: Directions.row), Text("Row")]),
-                    Row(children: [Radio(value: Directions.column), Text("Column")])
+                    Row(
+                      children: [
+                        Radio(value: Directions.row),
+                        Text("Row"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio(value: Directions.column),
+                        Text("Column"),
+                      ],
+                    ),
                   ],
-                ))
+                ),
+              ),
             ],
           ),
           SingleChildScrollView(
@@ -73,9 +89,19 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
                 ? Axis.horizontal
                 : Axis.vertical,
 
-            child: StreamBuilder(stream: state.watcher, builder: (BuildContext context, AsyncSnapshot<FileSystemEvent?> snapshot) {
-              return TimelineRenderWidget();
-            })
+            child: Screenshot(
+              controller: controller,
+              child: StreamBuilder(
+                stream: state.watcher,
+                builder:
+                    (
+                      BuildContext context,
+                      AsyncSnapshot<FileSystemEvent?> snapshot,
+                    ) {
+                      return TimelineRenderWidget(key: widget.timelineKey);
+                    },
+              ),
+            ),
           ),
         ],
       ),
@@ -84,7 +110,8 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
 }
 
 class TimelinePreviewState extends StatefulWidget {
-  const TimelinePreviewState({super.key});
+  final timelineKey = GlobalKey<TimelineRenderState>();
+  TimelinePreviewState({super.key});
   @override
   State<StatefulWidget> createState() => TimelinePreviewWidget();
 }

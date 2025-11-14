@@ -6,12 +6,9 @@ import 'package:timeliner_flitter/widgets/entry.dart';
 
 class TimelineRenderState extends State<TimelineRenderWidget> {
   final AppState state = AppState();
-  final ScreenshotController screenshotController = ScreenshotController();
 
-  // Future<void> saveAsImage(String path) async {
-  //   await WidgetsBinding.instance.endOfFrame;
-  //   await screenshotController.captureAndSave(path);
-  // }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +38,7 @@ class TimelineRenderState extends State<TimelineRenderWidget> {
 
     }
 
-    return Screenshot(controller: screenshotController, child: view);
+    return view;
 
   }
   

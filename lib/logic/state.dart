@@ -1,3 +1,4 @@
+import "dart:async";
 import "dart:convert";
 import "dart:io";
 
@@ -43,6 +44,7 @@ class AppState {
   List<Entry> entries = [];
   final Signal<String?> screenshotPath = signal(null);
   Stream<FileSystemEvent>? watcher;
+  StreamSubscription<FileSystemEvent>? listener;
   static final AppState _singleton = AppState._internal();
   File? file;
   Config config = Config();
@@ -53,10 +55,18 @@ class AppState {
 
   AppState._internal();
 
-  Future<void> watchFileChanges(Stream<FileSystemEvent> watcher) async {
-    await for (var event in watcher) {
-      loadFromCSV(file?.path as String);
+  Future<void> watchFileChanges() async {
+    await listener?.cancel();
+    if (file == null) {
+      return;
     }
+
+    watcher = file!.watch();
+    listener = watcher?.listen((e) async {
+      if (e.type == FileSystemEvent.modify) {
+        loadFromCSV(file!.path);
+      }
+    });
   }
 
 
@@ -65,8 +75,7 @@ class AppState {
     if (file == null) {
       throw Exception("Got null file");
     }
-    watcher = file?.watch();
-    if (watcher != null) {watchFileChanges(watcher!);}
+    watchFileChanges();
 
     var contents = await file?.readAsString(encoding: utf8);
     var csvParsed = CsvToListConverter().convert(contents);

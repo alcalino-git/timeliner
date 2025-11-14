@@ -37,7 +37,7 @@ class AppStateWidget extends State<MainApp> {
     setState(() {
       state = state;
     });
-    if (state.entries.isEmpty) {
+    if (state.entries.peek().isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {

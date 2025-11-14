@@ -15,7 +15,7 @@ class TimelineRenderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var contents = state.entries.peek()
+    var contents = state.entries
         .map(
           (e) =>
               EntryWidget(entry: e, imageAspectRatio: state.config.aspectRatio),
@@ -28,14 +28,14 @@ class TimelineRenderWidget extends StatelessWidget {
       case Directions.column: 
         view = SizedBox(
           width: state.config.size,
-          height: (state.config.size+state.config.gap)*state.entries.peek().length,
+          height: (state.config.size+state.config.gap)*state.entries.length,
           child: Column(spacing: state.config.gap, children: contents),
         );
 
       case Directions.row:
         view =  SizedBox(
           height: state.config.size,
-          width: (state.config.size+state.config.gap)*state.entries.peek().length,
+          width: (state.config.size+state.config.gap)*state.entries.length,
           child: Row(spacing: state.config.gap, children: contents),
         );
 

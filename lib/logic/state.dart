@@ -40,7 +40,7 @@ class Config {
 }
 
 class AppState {
-  Signal<List<Entry>> entries = signal([]);
+  List<Entry> entries = [];
   final Signal<String?> screenshotPath = signal(null);
   Stream<FileSystemEvent>? watcher;
   static final AppState _singleton = AppState._internal();
@@ -71,11 +71,10 @@ class AppState {
     var contents = await file?.readAsString(encoding: utf8);
     var csvParsed = CsvToListConverter().convert(contents);
     List<String> headers = csvParsed[0].map((e) => e.toString()).toList();
-    var e = csvParsed
+    entries = csvParsed
         .sublist(1)
         .map((e) => Entry.fromCsvRow(headers, e))
         .toList();
-    entries.set(e);
 
     return this;
   }

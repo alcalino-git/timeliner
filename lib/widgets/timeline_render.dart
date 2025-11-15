@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:timeliner_flitter/logic/state.dart';
@@ -7,11 +9,8 @@ import 'package:timeliner_flitter/widgets/entry.dart';
 class TimelineRenderState extends State<TimelineRenderWidget> {
   final AppState state = AppState();
 
-
-  
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildView() {
+    var state = AppState();
     var contents = state.entries
         .map(
           (e) =>
@@ -22,31 +21,40 @@ class TimelineRenderState extends State<TimelineRenderWidget> {
     Widget view;
 
     switch (state.config.exportDirection) {
-      case Directions.column: 
+      case Directions.column:
         view = SizedBox(
           width: state.config.size,
-          height: (state.config.size+state.config.gap)*state.entries.length,
+          height: (state.config.size + state.config.gap) * state.entries.length,
           child: Column(spacing: state.config.gap, children: contents),
         );
 
       case Directions.row:
-        view =  SizedBox(
+        view = SizedBox(
           height: state.config.size,
-          width: (state.config.size+state.config.gap)*state.entries.length,
+          width: (state.config.size + state.config.gap) * state.entries.length,
           child: Row(spacing: state.config.gap, children: contents),
         );
-
     }
 
     return view;
-
   }
-  
+
+  @override
+  Widget build(BuildContext context) {
+
+    return StreamBuilder(
+      stream: state.watcher,
+      builder:
+          (BuildContext context, AsyncSnapshot<FileSystemEvent?> snapshot) {
+            return buildView();
+          },
+    );
+  }
 }
 
 class TimelineRenderWidget extends StatefulWidget {
   const TimelineRenderWidget({super.key});
-  
+
   @override
   State<StatefulWidget> createState() => TimelineRenderState();
 }

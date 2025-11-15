@@ -15,12 +15,17 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
   final timelineKey = GlobalKey<TimelineRenderState>();
   final controller = ScreenshotController();
 
-  TimelinePreviewWidget() {
+
+  @override
+  void initState() {
     state.screenshotPath.subscribe((p) async {
       if (p == null) return;
       controller.captureAndSave(p);
     });
+    super.initState();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -91,16 +96,7 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
 
             child: Screenshot(
               controller: controller,
-              child: StreamBuilder(
-                stream: state.watcher,
-                builder:
-                    (
-                      BuildContext context,
-                      AsyncSnapshot<FileSystemEvent?> snapshot,
-                    ) {
-                      return TimelineRenderWidget(key: widget.timelineKey);
-                    },
-              ),
+              child: TimelineRenderWidget(),
             ),
           ),
         ],
@@ -112,6 +108,8 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
 class TimelinePreviewState extends StatefulWidget {
   final timelineKey = GlobalKey<TimelineRenderState>();
   TimelinePreviewState({super.key});
+
+
   @override
   State<StatefulWidget> createState() => TimelinePreviewWidget();
 }

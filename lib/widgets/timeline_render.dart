@@ -12,24 +12,27 @@ class TimelineRenderState extends State<TimelineRenderWidget> {
     var contents = state.entries
         .map(
           (e) =>
-              EntryWidget(entry: e, imageAspectRatio: state.config.aspectRatio),
+              EntryWidget(entry: e, aspectRatio: state.config.aspectRatio),
         )
         .toList();
 
     Widget view;
 
+    var entryWidth = state.config.size * state.config.aspectRatio;
+    var entryHeight = state.config.size;
+
     switch (state.config.exportDirection) {
       case Directions.column:
         view = SizedBox(
-          width: state.config.size,
-          height: (state.config.size + state.config.gap) * state.entries.length,
+          width: entryWidth,
+          height: (entryHeight + state.config.gap) * state.entries.length,
           child: Column(spacing: state.config.gap, children: contents),
         );
 
       case Directions.row:
         view = SizedBox(
-          height: state.config.size,
-          width: (state.config.size + state.config.gap) * state.entries.length,
+          height: entryHeight,
+          width: (entryWidth + state.config.gap) * state.entries.length,
           child: Row(spacing: state.config.gap, children: contents),
         );
     }

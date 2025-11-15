@@ -57,6 +57,11 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
                 //decoration: InputDecoration(label: Text("Size")),
                 initialValue: state.config.size.toString(),
               ),
+              Slider(min: 0, max: 2, value: state.config.aspectRatio, onChanged: (v) => {
+                setState(() {
+                  state.config.aspectRatio = v;
+                })
+              }),
               RadioGroup<Directions>(
                 groupValue: state.config.exportDirection,
                 onChanged: (v) => {

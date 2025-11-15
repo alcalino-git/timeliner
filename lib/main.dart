@@ -67,7 +67,7 @@ class AppStateWidget extends State<MainApp> {
               onPressed: () => handleSelectFile(context),
               child: Text("Open"),
             ),
-            TextButton(onPressed: () => handleSaveFile(context), child: Text("Save")),
+            TextButton(onPressed: () => handleSaveFile(context), child: Text("Export")),
           ],
         ),
         body: Center(

@@ -5,12 +5,10 @@ import 'package:screenshot/screenshot.dart';
 import 'package:timeliner_flitter/logic/state.dart';
 import 'package:timeliner_flitter/widgets/entry.dart';
 
-
 class TimelineRenderState extends State<TimelineRenderWidget> {
   final AppState state = AppState();
 
   Widget buildView() {
-    var state = AppState();
     var contents = state.entries
         .map(
           (e) =>
@@ -41,7 +39,6 @@ class TimelineRenderState extends State<TimelineRenderWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder(
       stream: state.watcher,
       builder:

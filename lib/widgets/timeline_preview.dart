@@ -13,19 +13,17 @@ import 'package:timeliner_flitter/widgets/timeline_render.dart';
 class TimelinePreviewWidget extends State<TimelinePreviewState> {
   AppState state = AppState();
   final timelineKey = GlobalKey<TimelineRenderState>();
-  final controller = ScreenshotController();
-
+  final _screenshotController = ScreenshotController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     state.screenshotPath.subscribe((p) async {
       if (p == null) return;
-      controller.captureAndSave(p);
+      _screenshotController.captureAndSave(p);
     });
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -88,15 +86,23 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
               ),
             ],
           ),
-          SingleChildScrollView(
-            physics: ScrollPhysics().parent,
-            scrollDirection: state.config.exportDirection == Directions.row
-                ? Axis.horizontal
-                : Axis.vertical,
+          Flexible(
+            child: Scrollbar(
+              controller: _scrollController,
+              interactive: true,
+              thumbVisibility: true,
+              trackVisibility: true,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: state.config.exportDirection == Directions.row
+                    ? Axis.horizontal
+                    : Axis.vertical,
 
-            child: Screenshot(
-              controller: controller,
-              child: TimelineRenderWidget(),
+                child: Screenshot(
+                  controller: _screenshotController,
+                  child: TimelineRenderWidget(),
+                ),
+              ),
             ),
           ),
         ],
@@ -108,7 +114,6 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
 class TimelinePreviewState extends StatefulWidget {
   final timelineKey = GlobalKey<TimelineRenderState>();
   TimelinePreviewState({super.key});
-
 
   @override
   State<StatefulWidget> createState() => TimelinePreviewWidget();

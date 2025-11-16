@@ -4,8 +4,9 @@ import 'package:timeliner_flitter/logic/state.dart';
 class EntryWidget extends StatelessWidget {
   final Entry entry;
   final double aspectRatio;
+  final state = AppState();
 
-  const EntryWidget({
+  EntryWidget({
     super.key,
     required this.entry,
     required this.aspectRatio,
@@ -39,7 +40,7 @@ class EntryWidget extends StatelessWidget {
               LayoutBuilder(
                 builder: (context, constraints) {
                   return SizedBox(
-                    height: (constraints.maxWidth / aspectRatio) / 2,
+                    height: (constraints.maxWidth / aspectRatio) * state.config.imageHeightPercentage,
                     width: constraints.maxWidth,
                     child: imgWidget,
                   );

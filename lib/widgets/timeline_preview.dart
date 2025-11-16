@@ -36,6 +36,7 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
         children: [
           //Slider(min: 0.0, max: 200.0, value: state.config.gap, onChanged: (v) {setState(() => state.config.gap = v);}),
           Column(
+            //crossAxisCount: 2,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -76,6 +77,23 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
                     },
                   ),
                 ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Image size"),
+                  Slider(
+                    min: 0,
+                    max: 1,
+                    value: state.config.imageHeightPercentage,
+                    onChanged: (v) => {
+                      setState(() {
+                        state.config.imageHeightPercentage = v;
+                      })
+                    },
+                  )
+                ],
+
               ),
               RadioGroup<Directions>(
                 groupValue: state.config.exportDirection,

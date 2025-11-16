@@ -38,6 +38,7 @@ class Config {
   double gap = 6.0;
   double aspectRatio = 1 / 1;
   double size = 500;
+  double imageHeightPercentage = 0.5;
 }
 
 class AppState {

@@ -78,6 +78,7 @@ class _TimelineConfigWidgetState extends State<TimelineConfigWidget> {
                 return;
               }
               state.config.exportDirection = v;
+              this.widget.onChanged();
             }),
           },
           child: Column(

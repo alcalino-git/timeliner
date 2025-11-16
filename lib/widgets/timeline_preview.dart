@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:timeliner_flitter/logic/state.dart';
 import 'package:timeliner_flitter/widgets/entry.dart';
+import 'package:timeliner_flitter/widgets/timeline_config.dart';
 import 'package:timeliner_flitter/widgets/timeline_render.dart';
 
 class TimelinePreviewWidget extends State<TimelinePreviewState> {
@@ -35,94 +36,10 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
       child: Column(
         children: [
           //Slider(min: 0.0, max: 200.0, value: state.config.gap, onChanged: (v) {setState(() => state.config.gap = v);}),
-          Column(
-            //crossAxisCount: 2,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (v) => {
-                  setState(() {
-                    state.config.gap = double.parse(v);
-                  }),
-                },
-                decoration: InputDecoration(label: Text("Gaps")),
-                initialValue: state.config.gap.toString(),
-              ),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (v) => {
-                  setState(() {
-                    state.config.size = double.parse(v);
-                  }),
-                },
-                decoration: InputDecoration(label: Text("Height (px)")),
-                initialValue: state.config.size.toString(),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Aspect Ratio (Tall -> Wide)"),
-                  Slider(
-                    min: 0,
-                    max: 2,
-                    value: state.config.aspectRatio,
-                    onChanged: (v) => {
-                      setState(() {
-                        state.config.aspectRatio = v;
-                      }),
-                    },
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Image size"),
-                  Slider(
-                    min: 0,
-                    max: 1,
-                    value: state.config.imageHeightPercentage,
-                    onChanged: (v) => {
-                      setState(() {
-                        state.config.imageHeightPercentage = v;
-                      })
-                    },
-                  )
-                ],
-
-              ),
-              RadioGroup<Directions>(
-                groupValue: state.config.exportDirection,
-                onChanged: (v) => {
-                  setState(() {
-                    if (v == null) {
-                      return;
-                    }
-                    state.config.exportDirection = v;
-                  }),
-                },
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Radio(value: Directions.row),
-                        Text("Row"),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Radio(value: Directions.column),
-                        Text("Column"),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          TimelineConfigWidget(
+            onChanged: () {
+              setState(() {});
+            },
           ),
           Flexible(
             child: Scrollbar(

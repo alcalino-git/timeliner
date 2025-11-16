@@ -2,6 +2,9 @@
 
 A simple utility for visualiazing timelines encoded as CSV files
 
+## Installation
+Binaries can be found in the releases page (https://github.com/alcalino-git/timeliner/releases)
+
 ## Usage
 
 Using the `Open` button on the UI will result in that CSV file being parsed and rendered.

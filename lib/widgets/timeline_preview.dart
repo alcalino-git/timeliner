@@ -20,7 +20,11 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
   void initState() {
     state.screenshotPath.subscribe((p) async {
       if (p == null) return;
-      _screenshotController.captureAndSave(p);
+      var data = await _screenshotController.captureFromLongWidget(
+        TimelineRenderWidget(key: timelineKey),
+      );
+      var file = File(p);
+      file.writeAsBytes(data);
     });
     super.initState();
   }
@@ -43,7 +47,7 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
                     state.config.gap = double.parse(v);
                   }),
                 },
-                //decoration: InputDecoration(label: Text("Gaps")),
+                decoration: InputDecoration(label: Text("Gaps")),
                 initialValue: state.config.gap.toString(),
               ),
               TextFormField(
@@ -54,14 +58,25 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
                     state.config.size = double.parse(v);
                   }),
                 },
-                //decoration: InputDecoration(label: Text("Size")),
+                decoration: InputDecoration(label: Text("Height (px)")),
                 initialValue: state.config.size.toString(),
               ),
-              Slider(min: 0, max: 2, value: state.config.aspectRatio, onChanged: (v) => {
-                setState(() {
-                  state.config.aspectRatio = v;
-                })
-              }),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Aspect Ratio (Tall -> Wide)"),
+                  Slider(
+                    min: 0,
+                    max: 2,
+                    value: state.config.aspectRatio,
+                    onChanged: (v) => {
+                      setState(() {
+                        state.config.aspectRatio = v;
+                      }),
+                    },
+                  ),
+                ],
+              ),
               RadioGroup<Directions>(
                 groupValue: state.config.exportDirection,
                 onChanged: (v) => {

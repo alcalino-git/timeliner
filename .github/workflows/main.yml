@@ -1,25 +1,16 @@
-name: flutter-cli
-  # You may pin to the exact commit or the version.
-  # uses: steebchen/flutter@55019e0f56278a7c84949e8e17c66e8f79d67290
+name: "Build & Release"  
+
 on: push
-jobs:
-  build:
-    name: install dependencies
+jobs:  # Telling what jobs we need to happen
+  build:      # Specify the building name and machine
+    name: Build & Release  # you can name the build whatever you want
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-
-    - name: install dependencies
-      uses: steebchen/flutter@v1.1.0
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Setup fluttfer
+      uses: subosito/flutter-action@v2
       with:
-        args: pub get
-
-    - name: run tests
-      uses: steebchen/flutter@v1.1.0
-      with:
-        args: test
-
-    - name: build linux
-      uses: steebchen/flutter@v1.1.0
-      with:
-        args: build linux --release
+        channel: stable
+        flutter-version: 3.19.0
+    - run: flutter build linux

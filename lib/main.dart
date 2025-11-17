@@ -6,6 +6,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:timeliner_flitter/logic/state.dart';
 import 'package:timeliner_flitter/widgets/entry.dart';
+import 'package:timeliner_flitter/widgets/timeline_edit.dart';
 import 'package:timeliner_flitter/widgets/timeline_preview.dart';
 
 void main() {
@@ -48,32 +49,52 @@ class AppStateWidget extends State<MainApp> {
   }
 
   Future<void> handleSaveFile(BuildContext context) async {
-	var file = await getSaveLocation(acceptedTypeGroups: [XTypeGroup(mimeTypes: ["image"])]);
-	if (file == null) {
-	  return;
-	}
-	state.screenshotPath.set(file.path);
+    var file = await getSaveLocation(
+      acceptedTypeGroups: [
+        XTypeGroup(mimeTypes: ["image"]),
+      ],
+    );
+    if (file == null) {
+      return;
+    }
+    state.screenshotPath.set(file.path);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Timeliner"),
-          shadowColor: Theme.of(context).colorScheme.shadow,
-          actions: [
-            TextButton(
-              onPressed: () => handleSelectFile(context),
-              child: Text("Open"),
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: const TabBar(
+              tabs: [
+                Tab(text: "Preview"),
+                Tab(text: "Edit"),
+              ],
             ),
-            TextButton(onPressed: () => handleSaveFile(context), child: Text("Export")),
-          ],
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [TimelinePreviewState()],
+            title: Text("Timeliner"),
+            shadowColor: Theme.of(context).colorScheme.shadow,
+            actions: [
+              TextButton(
+                onPressed: () => handleSelectFile(context),
+                child: Text("Open"),
+              ),
+              TextButton(
+                onPressed: () => handleSaveFile(context),
+                child: Text("Export"),
+              ),
+            ],
+          ),
+          body: TabBarView(
+            children: [
+              TimelinePreviewState(),
+              TimelineEditWidget(
+                onChanged: () {
+                  setState(() {});
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -82,7 +103,6 @@ class AppStateWidget extends State<MainApp> {
 }
 
 class MainApp extends StatefulWidget {
-
   const MainApp({super.key});
 
   @override

@@ -11,7 +11,7 @@ import 'package:timeliner_flitter/widgets/entry.dart';
 import 'package:timeliner_flitter/widgets/timeline_config.dart';
 import 'package:timeliner_flitter/widgets/timeline_render.dart';
 
-class TimelinePreviewWidget extends State<TimelinePreviewState> {
+class _TimelinePreviewWidgetState extends State<TimelinePreviewWidget> {
   AppState state = AppState();
   final timelineKey = GlobalKey<TimelineRenderState>();
   final _screenshotController = ScreenshotController();
@@ -32,9 +32,8 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
+    return Column(
+      children: [
           //Slider(min: 0.0, max: 200.0, value: state.config.gap, onChanged: (v) {setState(() => state.config.gap = v);}),
           TimelineConfigWidget(
             onChanged: () {
@@ -61,15 +60,14 @@ class TimelinePreviewWidget extends State<TimelinePreviewState> {
             ),
           ),
         ],
-      ),
     );
   }
 }
 
-class TimelinePreviewState extends StatefulWidget {
+class TimelinePreviewWidget extends StatefulWidget {
   final timelineKey = GlobalKey<TimelineRenderState>();
-  TimelinePreviewState({super.key});
+  TimelinePreviewWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() => TimelinePreviewWidget();
+  State<StatefulWidget> createState() => _TimelinePreviewWidgetState();
 }

@@ -10,7 +10,7 @@ import 'package:timeliner_flitter/widgets/timeline_edit.dart';
 import 'package:timeliner_flitter/widgets/timeline_preview.dart';
 
 void main() {
-  runApp(const MaterialApp(home: MainApp()));
+  runApp(MainApp());
 }
 
 class AppStateWidget extends State<MainApp> {
@@ -63,6 +63,7 @@ class AppStateWidget extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Timeliner",
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -88,7 +89,7 @@ class AppStateWidget extends State<MainApp> {
           ),
           body: TabBarView(
             children: [
-              TimelinePreviewState(),
+              TimelinePreviewWidget(),
               TimelineEditWidget(
                 onChanged: () {
                   setState(() {});

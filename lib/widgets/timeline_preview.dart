@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:timeliner_flitter/logic/state.dart';
-import 'package:timeliner_flitter/widgets/entry.dart';
-import 'package:timeliner_flitter/widgets/timeline_config.dart';
-import 'package:timeliner_flitter/widgets/timeline_render.dart';
+import 'package:timeliner_flutter/logic/state.dart';
+import 'package:timeliner_flutter/widgets/entry.dart';
+import 'package:timeliner_flutter/widgets/timeline_config.dart';
+import 'package:timeliner_flutter/widgets/timeline_render.dart';
 
 class _TimelinePreviewWidgetState extends State<TimelinePreviewWidget> {
   AppState state = AppState();

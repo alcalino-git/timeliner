@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:timeliner_flitter/logic/state.dart';
-import 'package:timeliner_flitter/widgets/entry.dart';
-import 'package:timeliner_flitter/widgets/timeline_edit.dart';
-import 'package:timeliner_flitter/widgets/timeline_preview.dart';
+import 'package:timeliner_flutter/logic/state.dart';
+import 'package:timeliner_flutter/widgets/entry.dart';
+import 'package:timeliner_flutter/widgets/timeline_edit.dart';
+import 'package:timeliner_flutter/widgets/timeline_preview.dart';
 
 void main() {
   runApp(MainApp());

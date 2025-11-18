@@ -5,7 +5,6 @@ import "dart:io";
 import "package:csv/csv.dart";
 import 'package:json_annotation/json_annotation.dart';
 import "package:signals/signals.dart";
-import 'package:timeliner_flitter/main.dart';
 
 @JsonSerializable()
 class Entry {

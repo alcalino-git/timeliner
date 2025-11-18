@@ -1,8 +1,8 @@
 
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:timeliner_flitter/logic/state.dart';
-import 'package:timeliner_flitter/main.dart';
+import 'package:timeliner_flutter/logic/state.dart';
+import 'package:timeliner_flutter/main.dart';
 
 void main() {
     group("State testing", () {

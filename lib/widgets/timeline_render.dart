@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:timeliner_flitter/logic/state.dart';
-import 'package:timeliner_flitter/widgets/entry.dart';
+import 'package:timeliner_flutter/logic/state.dart';
+import 'package:timeliner_flutter/widgets/entry.dart';
 
 class TimelineRenderState extends State<TimelineRenderWidget> {
   final AppState state = AppState();

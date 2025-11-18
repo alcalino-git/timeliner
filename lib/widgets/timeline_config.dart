@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timeliner_flitter/logic/state.dart';
+import 'package:timeliner_flutter/logic/state.dart';
 import 'package:flutter/src/services/text_formatter.dart' as filtering;
 
 class _TimelineConfigWidgetState extends State<TimelineConfigWidget> {

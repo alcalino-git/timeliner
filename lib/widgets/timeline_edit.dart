@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
-import 'package:timeliner_flitter/logic/state.dart';
+import 'package:timeliner_flutter/logic/state.dart';
 import 'package:editable/editable.dart';
 
 class _TimelineEditState extends State<TimelineEditWidget> {

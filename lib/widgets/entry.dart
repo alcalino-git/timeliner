@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timeliner_flitter/logic/state.dart';
+import 'package:timeliner_flutter/logic/state.dart';
 
 class EntryWidget extends StatelessWidget {
   final Entry entry;

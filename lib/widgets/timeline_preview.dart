@@ -32,6 +32,20 @@ class _TimelinePreviewWidgetState extends State<TimelinePreviewWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (state.file == null) {
+      return IntrinsicHeight(
+        child: Transform.scale(
+          scale: 2.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Icon(Icons.file_copy), Text("No file loaded")],
+          ),
+        ),
+      );
+    }
+
     return Column(
       children: [
           //Slider(min: 0.0, max: 200.0, value: state.config.gap, onChanged: (v) {setState(() => state.config.gap = v);}),

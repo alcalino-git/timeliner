@@ -13,6 +13,18 @@ class _TimelineEditState extends State<TimelineEditWidget> {
     AppState().file?.readAsStringSync(encoding: utf8),
   );
 
+  void _initData() {
+    data = const CsvToListConverter().convert(
+      AppState().file?.readAsStringSync(encoding: utf8),
+    );
+  }
+
+  @override
+  void initState() {
+    _initData();
+    super.initState();
+  }
+
   void _saveState() {
     String csv = ListToCsvConverter().convert(data);
     state.file!.writeAsStringSync(csv);
@@ -69,6 +81,8 @@ class _TimelineEditState extends State<TimelineEditWidget> {
   }
 
   Widget buildView() {
+    _initData();
+
     return IntrinsicHeight(
       child: Editable(
         onSubmitted: (_) => _handleEditedRow(),
@@ -86,23 +100,48 @@ class _TimelineEditState extends State<TimelineEditWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        StreamBuilder(
-          stream: state.watcher,
-          builder: (context, snapshot) {
-            return buildView();
-          },
+    if (state.file == null) {
+      return IntrinsicHeight(
+        child: Transform.scale(
+          scale: 2.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Icon(Icons.file_copy), Text("No file loaded")],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(onPressed: () {_handleAddRow();}, child: Text("Add row")),
-            TextButton(onPressed: () {_handleDeleteRow();}, child: Text("Delete row"))
-          ],
-        )
-      ],
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          StreamBuilder(
+            stream: state.watcher,
+            builder: (context, snapshot) {
+              return buildView();
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () {
+                  _handleAddRow();
+                },
+                child: Text("Add row"),
+              ),
+              TextButton(
+                onPressed: () {
+                  _handleDeleteRow();
+                },
+                child: Text("Delete row"),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

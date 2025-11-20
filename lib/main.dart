@@ -38,14 +38,16 @@ class AppStateWidget extends State<MainApp> {
     setState(() {
       state = state;
     });
-    if (state.entries.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return dialog;
-        },
-      );
-    }
+    try {
+      if (state.entries.isEmpty) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          },
+        );
+      }
+    } catch (e) {}
   }
 
   Future<void> handleSaveFile(BuildContext context) async {
@@ -74,7 +76,7 @@ class AppStateWidget extends State<MainApp> {
                 Tab(text: "Edit"),
               ],
             ),
-            title: Text("Timeliner"),
+            title: Text("Timeliner (${state.file})"),
             shadowColor: Theme.of(context).colorScheme.shadow,
             actions: [
               TextButton(

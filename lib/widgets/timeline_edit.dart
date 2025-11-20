@@ -1,22 +1,24 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:signals/signals_core.dart';
 import 'package:timeliner_flutter/logic/state.dart';
 import 'package:editable/editable.dart';
 
 class _TimelineEditState extends State<TimelineEditWidget> {
   final state = AppState();
-  final _editableKey = GlobalKey<EditableState>();
+  var _editableKey = GlobalKey<EditableState>();
 
-  List<List<dynamic>> data = const CsvToListConverter().convert(
-    AppState().file?.readAsStringSync(encoding: utf8),
-  );
+  List<List<dynamic>> data = [];
 
   void _initData() {
     data = const CsvToListConverter().convert(
       AppState().file?.readAsStringSync(encoding: utf8),
     );
+    _editableKey = GlobalKey<EditableState>();
   }
 
   @override
@@ -80,7 +82,7 @@ class _TimelineEditState extends State<TimelineEditWidget> {
     _saveState();
   }
 
-  Widget buildView() {
+  Widget buildTable() {
     _initData();
 
     return IntrinsicHeight(
@@ -89,10 +91,14 @@ class _TimelineEditState extends State<TimelineEditWidget> {
 
         key: _editableKey,
         columns: data[0].map((e) {
-          return {"title": e, 'widthFactor': 0.17, 'key': e};
+          return {"title": e.toString(), 'widthFactor': 0.17, 'key': e.toString()};
         }).toList(),
         rows: data.sublist(1).map((r) {
-          return Map.fromIterables(data[0], r);
+          return Map
+            .fromIterables(
+              data[0].map((x) {return x.toString();}), 
+              r.map((x) {return x.toString();})
+            );
         }).toList(),
       ),
     );
@@ -100,6 +106,8 @@ class _TimelineEditState extends State<TimelineEditWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+
     if (state.file == null) {
       return IntrinsicHeight(
         child: Transform.scale(
@@ -120,7 +128,7 @@ class _TimelineEditState extends State<TimelineEditWidget> {
           StreamBuilder(
             stream: state.watcher,
             builder: (context, snapshot) {
-              return buildView();
+              return buildTable();
             },
           ),
           Row(

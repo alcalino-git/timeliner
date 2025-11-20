@@ -33,17 +33,9 @@ class _TimelineEditState extends State<TimelineEditWidget> {
   }
 
   void _handleDeleteRow() {
-    setState(() {
-      data = data.sublist(0, data.length - 1).toList();
-    });
-
+    data = data.sublist(0, data.length - 1).toList();
     _saveState();
-
-    _editableKey.currentState?.rows = _editableKey.currentState!.rows!.sublist(
-      0,
-      _editableKey.currentState!.rows!.length - 1,
-    );
-    setState(() {});
+    _initData();
   }
 
   void _handleAddRow() {
@@ -52,8 +44,9 @@ class _TimelineEditState extends State<TimelineEditWidget> {
         return "";
       }),
     );
-    _editableKey.currentState!.createRow();
+    // _editableKey.currentState!.createRow();
     _saveState();
+    _initData();
     setState(() {});
   }
 

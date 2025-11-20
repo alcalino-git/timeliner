@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_core.dart';
 import 'package:timeliner_flutter/logic/state.dart';
 import 'package:editable/editable.dart';
 
 class _TimelineEditState extends State<TimelineEditWidget> {
-  final state = AppState();
+  var state = AppState();
   var _editableKey = GlobalKey<EditableState>();
 
   List<List<dynamic>> data = [];
@@ -27,12 +28,24 @@ class _TimelineEditState extends State<TimelineEditWidget> {
     super.initState();
   }
 
+  void _createFile() {
+    getSaveLocation().then((file) {
+      if (file == null) {return;} 
+      setState(() {
+        state.createFile(file.path).then((f) {state = f;});
+      });
+      _saveState();
+      _initData();
+    });
+  }
+
   void _saveState() {
     String csv = ListToCsvConverter().convert(data);
     state.file!.writeAsStringSync(csv);
   }
 
   void _handleDeleteRow() {
+    if (data.length <= 1) {return;} //Prevent deleting headers
     data = data.sublist(0, data.length - 1).toList();
     _saveState();
     _initData();
@@ -108,7 +121,11 @@ class _TimelineEditState extends State<TimelineEditWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Icon(Icons.file_copy), Text("No file loaded")],
+            children: [
+              Icon(Icons.file_copy), 
+              Text("No file loaded"),
+              TextButton(onPressed: () {_createFile();}, child: Text("Create file"))
+            ],
           ),
         ),
       );

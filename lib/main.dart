@@ -76,7 +76,7 @@ class AppStateWidget extends State<MainApp> {
                 Tab(text: "Edit"),
               ],
             ),
-            title: Text("Timeliner (${state.file})"),
+            title: Text("Timeliner"),
             shadowColor: Theme.of(context).colorScheme.shadow,
             actions: [
               TextButton(

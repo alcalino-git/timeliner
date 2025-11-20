@@ -55,7 +55,7 @@ class AppState {
 
   AppState._internal();
 
-  Future<void> watchFileChanges() async {
+  Future<void> _watchFileChanges() async {
     await listener?.cancel();
     if (file == null) {
       return;
@@ -69,13 +69,23 @@ class AppState {
     });
   }
 
+  Future<AppState> createFile(String filename) async {
+    file = File(filename);
+    var headers = [["name", "start", "end", "description", "image"]];
+    var csvString = ListToCsvConverter().convert(headers);
+    await file?.writeAsString(csvString);
+
+
+    return loadFromCSV(filename);
+  }
+
 
   Future<AppState> loadFromCSV(String filename) async {
     file = File(filename);
     if (file == null) {
       throw Exception("Got null file");
     }
-    watchFileChanges();
+    _watchFileChanges();
 
     var contents = await file?.readAsString(encoding: utf8);
     var csvParsed = CsvToListConverter().convert(contents);

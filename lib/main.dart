@@ -9,7 +9,12 @@ import 'package:timeliner_flutter/widgets/entry.dart';
 import 'package:timeliner_flutter/widgets/timeline_edit.dart';
 import 'package:timeliner_flutter/widgets/timeline_preview.dart';
 
-void main() {
+Future<void> main(List<String> args) async {
+  var state = AppState();
+  if (args.isNotEmpty) {
+    await state.loadFromCSV(args[0]);
+  }
+
   runApp(MainApp());
 }
 

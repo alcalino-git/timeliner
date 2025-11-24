@@ -4,7 +4,14 @@ A simple utility for visualiazing timelines encoded as CSV files
 
 ## Installation
 Binaries can be found in the releases page (https://github.com/alcalino-git/timeliner/releases)
-Note: As of now, none of the releases actually work, Im still figuring that out
+
+#### Debian installation
+Simply download the latest avalible .deb file in the latest release and install it using apt, for example
+
+```bash
+sudo apt install ./timeliner_0.1.0-1.deb 
+```
+
 ## Usage
 
 When launching from the terminal, a csv file may optionally be specified as first argument, which will cause the program to launch with that CSV file already loaded

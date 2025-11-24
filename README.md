@@ -7,9 +7,15 @@ Binaries can be found in the releases page (https://github.com/alcalino-git/time
 Note: As of now, none of the releases actually work, Im still figuring that out
 ## Usage
 
-Using the `Open` button on the UI will result in that CSV file being parsed and rendered.
+When launching from the terminal, a csv file may optionally be specified as first argument, which will cause the program to launch with that CSV file already loaded
+
+```bash
+timeliner ./example.csv
+```
+
+Otherwise, using the `Open` button on the UI will allow the user to select a CSV file via a file picker.
 The program will begin watching for changes on that file and automatically re-render
-if any changes are made
+if any changes are made to it
 
 The CSV file must have at least the following headers (Spelled EXACTLY like that but not necessarily in that order)
 - name: String
@@ -28,7 +34,7 @@ Ada Lovelace,1815-12-10,1852-11-27,English mathematician who wrote notes on Babb
 |------------|----------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
 |Ada Lovelace|1815-12-10|1852-11-27|English mathematician who wrote notes on Babbage's Analytical Engine and is often credited with the first algorithm intended to be carried out by a machine.|https://upload.wikimedia.org/wikipedia/commons/a/a4/Ada_Lovelace_portrait.jpg|
 
-## Configurating the timeline
+## Configuring the timeline
 The following options are provided via the UI:
 - Gaps: Space between each item (in pixels)
 - Height: Height of each item (in pixels)

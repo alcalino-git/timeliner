@@ -18,11 +18,6 @@ def getProperty(path: str, identifier: str):
             value = (line[line.index(":")+1::]).strip()
             return value
 
-project_version = getProperty(PROJECT_CONFIG_PATH, "version")
-project_name = (getProperty(PROJECT_CONFIG_PATH, "name")).replace("_", "").replace("flutter", "")
-project_description = getProperty(PROJECT_CONFIG_PATH, "description")
-package_name = f"./{project_name}_{project_version}-1"
-
 
         
 def createProjectRoot():
@@ -130,11 +125,18 @@ if __name__ == "__main__":
 
 
     if script_path not in files:
-        print("This script is to be executed from its own path")
+        print("This script is meant to be executed from its own directory")
+        print(f"Expected current working directory to be the same directory as \n{script_path}\nbut got\n{cwd}")
         print("Exiting...")
         exit(1)
 
     try:
+        project_version = getProperty(PROJECT_CONFIG_PATH, "version")
+        project_name = (getProperty(PROJECT_CONFIG_PATH, "name")).replace("_", "").replace("flutter", "")
+        project_description = getProperty(PROJECT_CONFIG_PATH, "description")
+        package_name = f"./{project_name}_{project_version}-1"
+
+
         createProjectRoot() #Creates files where flutter blobs will be moved
 
         compileProject() #Actually builds the flutter project. Also moves the blob to the appropiate local directories

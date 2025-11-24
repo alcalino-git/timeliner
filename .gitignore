@@ -46,3 +46,8 @@ app.*.map.json
 .*.csv
 
 software_figures.csv
+
+package/DEBIAN
+package/usr
+*.deb
+*.csv
